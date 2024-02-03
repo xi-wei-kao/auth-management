@@ -1,0 +1,5 @@
+package com.java1234.consts;
+
+public class JwtConsts {
+
+}

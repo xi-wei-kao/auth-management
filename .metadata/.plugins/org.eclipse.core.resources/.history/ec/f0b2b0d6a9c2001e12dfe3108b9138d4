@@ -1,0 +1,38 @@
+## ==================================================
+## local1(local test) - DB connect to local docker container
+## ==================================================
+
+server:
+  port: 7100
+  
+spring:
+  ## ==============================================================================
+  ## DB(Redis) 
+  ## ==============================================================================
+  data:
+    redis:
+      database: 2
+      host: 127.0.0.1
+      port: 6379
+
+  ## ==============================================================================
+  ## DB(PostgreSQL) Connection 
+  ## ==============================================================================
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=auth-test
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+    ## --------------------------------------------------------------
+    hikari:
+      # 最小空閒連接數
+      minimum-idle: 10
+      # 連接池最大大小
+      maximum-pool-size: 50
+      # 連接最大空閒時長
+      idle-timeout: 60000
+      # 連接生命時長
+      max-lifetime: 1800000
+      # 連接的超時時長
+      connection-timeout: 30000
+    

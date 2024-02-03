@@ -1,0 +1,11 @@
+package com.java1234.enums;
+/**
+ * [ Enums ]: JWT 相關列舉常數
+ * @author aa349
+ *
+ */
+public enum ConstantOfJwtEnums {
+
+	
+	
+}

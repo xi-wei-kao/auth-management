@@ -1,0 +1,13 @@
+package com.java1234.dto;
+
+import lombok.Data;
+
+@Data
+public class JwtCheckResultDTO {
+
+	private Integer errorCode;
+	
+	private Boolean isSuccess;
+	
+	private Claims claims;
+}

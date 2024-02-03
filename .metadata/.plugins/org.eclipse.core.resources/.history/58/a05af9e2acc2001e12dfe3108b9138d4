@@ -1,0 +1,37 @@
+package com.java1234.security;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.java1234.dao.TestUserMtrDao;
+import com.java1234.dao.entity.TestUserMtrEnt;
+
+/**
+ * 自定義 UserDetails
+ * @author aa349
+ *
+ */
+@Service
+public class CustUserDetailsServiceImpl implements UserDetailsService {
+	
+	@Autowired
+	private TestUserMtrDao testUserMtrDao;
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+		TestUserMtrEnt ent = testUserMtrDao.findByUserName(username);
+		Optional<TestUserMtrDao> entOpt = Optional.ofNullable(ent);
+		
+		
+		
+		
+		return null;
+	}
+
+}

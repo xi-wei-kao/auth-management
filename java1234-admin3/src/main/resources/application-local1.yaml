@@ -1,0 +1,69 @@
+## ==================================================
+## local1(local test) - DB connect to local docker container
+## ==================================================
+
+server:
+  port: 7100
+  
+spring:
+  ## ==============================================================================
+  ## DB(Redis) 
+  ## ==============================================================================
+  data:
+    redis:
+      database: 2
+      host: 127.0.0.1
+      port: 6379
+
+  ## ==============================================================================
+  ## DB(PostgreSQL) Connection 
+  ## ==============================================================================
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=auth-test
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+    ## --------------------------------------------------------------
+    hikari:
+      # 最小空閒連接數
+      minimum-idle: 10
+      # 連接池最大大小
+      maximum-pool-size: 50
+      # 連接最大空閒時長
+      idle-timeout: 60000
+      # 連接生命時長
+      max-lifetime: 1800000
+      # 連接的超時時長
+      connection-timeout: 30000
+      
+## ==============================================================
+## FLYWAY Configuration
+## ==============================================================
+  flyway:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=auth-test
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    default-schema: auth-test
+    # 檔案存取位置
+    locations: classpath:db/migration
+    # Script 檔名先行碼
+    sql-migration-prefix: V
+    # Script 檔名名稱分隔符
+    sql-migration-separator: __
+    # Script 檔名後綴
+    sql-migration-suffixes: sql
+    # 歷史紀錄表定義
+    table: auth_test_schema_his
+    # 是否執行起始版號
+    baseline-on-migrate: false
+    # 設定migration的起始版號
+    baseline-version: 24.0203.01
+    # 執行migration是否允許無序執行
+    out-of-order: true
+    # 執行migration是否自動驗證
+    validate-on-migrate: true
+    # 編碼格式
+    encoding: UTF-8
+    # 是否啟用Flyway
+    enabled: true
+    

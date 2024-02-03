@@ -1,0 +1,15 @@
+package com.java1234.consts;
+/**
+ * [ 常數類 ]: 保存 JWT 相關常數
+ * @author aa349
+ *
+ */
+public class JwtConsts {
+
+	// JWT 簽發核可密鑰
+	public static final String JWT_SECRET = "34iotrj489gjrgn4iungg4ni";
+	
+	// JWT Token 有效時間(units: millisecond)
+	public static final Long JWT_TTL = 24 * 60 * 60 * 1000;
+	
+}

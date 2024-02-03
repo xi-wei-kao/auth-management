@@ -1,0 +1,5 @@
+package com.java1234.security;
+
+public class CustUserDetailsServiceImpl {
+
+}

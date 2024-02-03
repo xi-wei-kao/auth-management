@@ -1,0 +1,9 @@
+package com.java1234.consts;
+/**
+ * [ 常數類 ]: 保存 JWT 相關常數
+ * @author aa349
+ *
+ */
+public class JwtConsts {
+
+}

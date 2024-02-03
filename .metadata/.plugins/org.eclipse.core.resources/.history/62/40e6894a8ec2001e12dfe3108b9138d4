@@ -1,0 +1,27 @@
+package com.java1234.utils;
+
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+public class JwtUtils {
+	
+	public static String createJWT(String id, String subject, Long ttlMillis) {
+		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+		Long nowMillis = System.currentTimeMillis();
+		Date now = new Date(nowMillis);
+		SecretKey secretKey = generateKey();
+		
+		JwtBuilder jwtBuilder = Jwts.builder()
+				.setId(id)
+				.setSubject(subject)                        // 設定主題
+				.setIssuer("Java1234")                      // 設定發行者
+				.setIssuedAt(now)                           // 發行時間
+				.signWith(signatureAlgorithm, secretKey)    // 簽名方式、使用密鑰
+	}
+
+}

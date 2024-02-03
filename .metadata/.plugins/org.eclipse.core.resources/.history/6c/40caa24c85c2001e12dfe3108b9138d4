@@ -1,0 +1,54 @@
+package com.java1234.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig {
+
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http
+			// CSRF 設定
+			.csrf(AbstractHttpConfigurer::disable);
+	
+			// 登陸登出設定
+		
+		return http.build();
+	}
+	
+	
+	
+	
+	
+	
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//		http
+//			.authorizeHttpRequests(registry ->
+//					registry 
+////							// ADMIN 可查詢所有使用者(APPUSER)
+////							.requestMatchers(HttpMethod.GET, "appusers/getAll")
+////								.hasAnyAuthority(TypeOfUserAuthority.ADMIN.toString())
+////							// ADMIN、NORMAL 可查詢單一使用者(APPUSER)
+////							.requestMatchers(HttpMethod.GET, "appusers/*?")
+////								.hasAnyAuthority(TypeOfUserAuthority.ADMIN.toString(),
+////												 TypeOfUserAuthority.NORMAL.toString())
+////							// 其餘接口允許呼叫
+////							.anyRequest().authenticated()
+//							.anyRequest().permitAll()
+//							
+//			)
+//	//		.formLogin(Customizer.withDefaults())
+//			.csrf(AbstractHttpConfigurer::disable);
+//	
+//	return http.build();
+//	}
+}

@@ -1,0 +1,22 @@
+package com.java1234.consts;
+/**
+ * [ 常數類 ]: 保存 JWT 相關常數
+ * @author aa349
+ *
+ */
+public class JwtConsts {
+	
+	// JWT Token 不存在
+	public static final Integer JWT_ERROR_CODE_NULL = 4000;
+	// JWT Token 過期
+	public static final Integer JWT_ERROR_CODE_EXPIRE = 4001;
+	// JWT Token 驗證不通過
+	public static final Integer JWT_ERROR_CODE_FAIL = 4002;
+
+	
+	// JWT 簽發核可密鑰
+	public static final String JWT_SECRET = "34iotrj489gjrgn4iungg4ni";
+	// JWT Token 有效時間(units: millisecond)
+	public static final Long JWT_TTL = Long.valueOf(Integer.valueOf(24 * 60 * 60 * 1000));
+	
+}

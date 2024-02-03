@@ -1,0 +1,88 @@
+package com.java1234.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig {
+	
+	private static final String URL_WHITELIST[] = {
+		"/login",
+		"/logout",
+		"/captcha",
+		"/password",
+		"/image/**",
+		"/test/**"
+	};
+
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http
+			// CSRF 設置
+			.csrf(AbstractHttpConfigurer::disable)
+	
+			// 登入登出 設置
+//			.formLogin()
+//				.successHandler(null)
+//				.failureHandler(null)
+//			.and()
+//				.logout()
+//				.logoutSuccessHandler(null)
+		
+			// Session 設置
+			.and()
+				.sessionManagement()
+				// Session 建立策略: 無狀態(前後端分離)
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			
+			// 請求攔截 設置
+			.and()
+				.authorizeHttpRequests(registry ->
+					registry
+						// 允許白名單
+						.requestMatchers(URL_WHITELIST).permitAll()
+						.anyRequest()
+						.authenticated()
+							
+				)
+				
+		;
+		return http.build();
+	}
+	
+	
+	
+	
+	
+	
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//		http
+//			.authorizeHttpRequests(registry ->
+//					registry 
+//							// ADMIN 可查詢所有使用者(APPUSER)
+//							.requestMatchers(HttpMethod.GET, "appusers/getAll")
+//								.hasAnyAuthority(TypeOfUserAuthority.ADMIN.toString())
+//							// ADMIN、NORMAL 可查詢單一使用者(APPUSER)
+//							.requestMatchers(HttpMethod.GET, "appusers/*?")
+//								.hasAnyAuthority(TypeOfUserAuthority.ADMIN.toString(),
+//												 TypeOfUserAuthority.NORMAL.toString())
+//							// 其餘接口允許呼叫
+//							.anyRequest().authenticated()
+//							.anyRequest().permitAll()
+//							
+//			)
+//	//		.formLogin(Customizer.withDefaults())
+//			.csrf(AbstractHttpConfigurer::disable);
+//	
+//	return http.build();
+//	}
+}

@@ -1,0 +1,9 @@
+package com.java1234.utils;
+
+public class JwtUtils {
+	
+	public static String createJWT(String id, String subject, Long ttlMillis) {
+		
+	}
+
+}

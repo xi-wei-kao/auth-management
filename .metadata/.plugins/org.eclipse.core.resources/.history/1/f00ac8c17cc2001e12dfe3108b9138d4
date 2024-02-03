@@ -1,0 +1,25 @@
+package com.java1234.controller;
+
+import java.util.Map;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.jsonwebtoken.lang.Objects;
+
+@RestController
+@RequestMapping(path = "/test")
+public class TestController {
+
+	@GetMapping(path = "/getList")
+	public Map<String, String> getList(@RequestHeader(required = true) String toekn) {
+		
+		if (Objects.nonNull(token)) {
+			
+		}
+		
+		return 
+	}
+}
