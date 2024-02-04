@@ -8,11 +8,14 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.security.crypto.codec.Base64;
 
 import com.java1234.consts.JwtConsts;
+import com.java1234.dto.JwtCheckResultDTO;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 
 /**
  * [ 靜態類別 ]: JWT 相關工具方法
@@ -85,7 +88,26 @@ public class JwtUtils {
 				.parseClaimsJws(jwt)
 				.getBody();
 	}
-	
-//	public static Check
+
+	public static JwtCheckResultDTO validateJWT(String token) {
+		JwtCheckResultDTO checkResultDTO = new JwtCheckResultDTO();
+		Claims claims = null;
+		try {
+			claims = parseJWT(token);
+			checkResultDTO.setIsSuccess(true);
+			checkResultDTO.setClaims(claims);
+		} catch (ExpiredJwtException error) {    // JWT 過期
+			checkResultDTO.setErrorCode(JwtConsts.JWT_ERROR_CODE_EXPIRE);
+			checkResultDTO.setIsSuccess(false);
+		} catch (SignatureException error) {    // JWT 驗證錯誤
+			checkResultDTO.setErrorCode(JwtConsts.JWT_ERROR_CODE_FAIL);
+			checkResultDTO.setIsSuccess(false);
+		} catch (Exception error) {    // 其他錯誤
+			checkResultDTO.setErrorCode(JwtConsts.JWT_ERROR_CODE_FAIL);
+			checkResultDTO.setIsSuccess(false);
+		}
+		
+		return checkResultDTO;
+	}
 
 }

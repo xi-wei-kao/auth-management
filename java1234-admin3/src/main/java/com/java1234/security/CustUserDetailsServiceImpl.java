@@ -44,7 +44,7 @@ public class CustUserDetailsServiceImpl implements UserDetailsService {
 		return new User(ent.getUserName(), pwd, getUserAuthority());
 	}
 
-	private List<GrantedAuthority> getUserAuthority() {
+	public List<GrantedAuthority> getUserAuthority() {
 		return new ArrayList<>();
 	}
 

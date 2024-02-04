@@ -33,6 +33,7 @@ import actions from '../service/index';
 import {
     LoginActionReq
 } from '../service/request/requestType';
+import { router } from '../router/index';
 
 const loginModel = ref<LoginActionReq>({
     username: "",
@@ -48,6 +49,10 @@ const handleLogin = async () => {
             ElMessage({
                 'type': 'success',
                 'message': data.message
+            });
+            window.sessionStorage.setItem("token", data.authorization)
+            router.push({
+                'name': 'home'
             });
         } else {
             ElMessage({

@@ -33,7 +33,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.setContentType("application/json;charset=UTF-8");
 		ServletOutputStream outputStream = response.getOutputStream();
 		
-		String username = "user";
+		String username = authentication.getName();
 		String token = JwtUtils.genJwtToken(username);
 		
 		Map<String, String> resultMap = new HashMap<>();

@@ -9,6 +9,16 @@ const server = axios.create({
     // 'withCredentials': true
 });
 
+server.interceptors.request.use((config: AxiosRequestConfig) => {
+    config.headers['token'] = window.sessionStorage.getItem("token");
+
+    return config;
+}, (error) => {  // 攔截後的請求失敗時，回傳錯誤
+    console.log("請求失敗");
+    return Promise.reject(error);
+});
+
+
 export default {
     // loginAction: (reqBody: LoginActionReq) => {
     //     return server.post(
@@ -18,5 +28,10 @@ export default {
     loginAction: (reqBody: LoginActionReq) => {
         return server.post(
             `/login?${qs.stringify(reqBody)}`)
+    },
+    queryAllAction: () => {
+        return server.get(
+            `/test/getList`
+        )
     }
 }

@@ -3,6 +3,7 @@ package com.java1234.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -10,11 +11,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.java1234.security.JwtAuthenticationFilter;
 import com.java1234.security.LoginFailureHandler;
 import com.java1234.security.LoginSuccessHandler;
 
@@ -29,14 +32,35 @@ public class SecurityConfig {
 	@Autowired
 	private LoginFailureHandler loginFailureHandler;
 	
+//	@Autowired
+//	private AuthenticationManager authenticationManager;
+	
 	private static final String URL_WHITELIST[] = {
 		"/login",
 		"/logout",
 		"/captcha",
 		"/password",
 		"/image/**",
-		"/test/**"
+//		"/test/**"
 	};
+	
+	@Bean
+	AuthenticationManager authenticationManager() {
+		return new AuthenticationManager() {
+			
+			@Override
+			public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+				return authentication;
+			}
+		};
+	}
+	
+	@Bean
+	JwtAuthenticationFilter jwtAuthenticationFilter() {
+		
+		JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
+		return jwtAuthenticationFilter;
+	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -58,7 +82,7 @@ public class SecurityConfig {
 				// Session 建立策略: 無狀態(前後端分離)
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			
-			// 請求攔截 設置
+			// 請求攔截規則 設置
 			.and()
 				.authorizeHttpRequests(registry ->
 					registry
@@ -68,6 +92,9 @@ public class SecurityConfig {
 						.authenticated()
 							
 				)
+				
+			// 自定義過濾器 設置
+			.addFilter(jwtAuthenticationFilter())
 				
 		;
 		return http.build();
