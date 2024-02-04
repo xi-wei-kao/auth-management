@@ -50,7 +50,7 @@ const handleLogin = async () => {
                 'type': 'success',
                 'message': data.message
             });
-            window.sessionStorage.setItem("token", data.authorization)
+            window.localStorage.setItem("token", data.authorization)
             router.push({
                 'name': 'home'
             });

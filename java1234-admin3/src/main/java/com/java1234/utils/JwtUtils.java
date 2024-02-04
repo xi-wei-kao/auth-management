@@ -31,7 +31,7 @@ public class JwtUtils {
 	 * @return
 	 */
 	public static String genJwtToken(String username) {
-		return createJWT(username, username, Long.valueOf(60*60*1000));
+		return createJWT(username, username, Long.valueOf(10 * 60 * 1000));
 	}
 	
 	/**

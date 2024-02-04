@@ -10,7 +10,7 @@ const server = axios.create({
 });
 
 server.interceptors.request.use((config: AxiosRequestConfig) => {
-    config.headers['token'] = window.sessionStorage.getItem("token");
+    config.headers['token'] = window.localStorage.getItem("token");
 
     return config;
 }, (error) => {  // 攔截後的請求失敗時，回傳錯誤
@@ -30,8 +30,10 @@ export default {
             `/login?${qs.stringify(reqBody)}`)
     },
     queryAllAction: () => {
-        return server.get(
-            `/test/getList`
-        )
-    }
+        return server.get(`/test/getList`)
+    },
+    logoutAction: () => {
+        return server.get(`/logout`)
+    },
+
 }

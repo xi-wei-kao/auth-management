@@ -19,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.java1234.security.JwtAuthenticationEntryPoint;
 import com.java1234.security.JwtAuthenticationFilter;
+import com.java1234.security.JwtLogoutSuccessHandler;
 import com.java1234.security.LoginFailureHandler;
 import com.java1234.security.LoginSuccessHandler;
 
@@ -32,6 +33,9 @@ public class SecurityConfig {
 	
 	@Autowired
 	private LoginFailureHandler loginFailureHandler;
+	
+	@Autowired
+	private JwtLogoutSuccessHandler jwtLogoutSuccessHandler;
 
 	@Autowired
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -73,9 +77,9 @@ public class SecurityConfig {
 			.formLogin()
 				.successHandler(loginSuccessHandler)
 				.failureHandler(loginFailureHandler)
-//			.and()
-//				.logout()
-//				.logoutSuccessHandler(null)
+			.and()
+				.logout()
+				.logoutSuccessHandler(jwtLogoutSuccessHandler)
 		
 			// Session 設置
 			.and()
