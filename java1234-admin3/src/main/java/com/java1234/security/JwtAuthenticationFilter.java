@@ -63,7 +63,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 			switch (checkResult.getErrorCode()) {
 				case 4000   : throw new JwtException("Token 不存在!");
 				case 4001   : throw new JwtException("Token 驗證不通過!");
-				case 4002   : throw new JwtException("Token 過期!");
+				case 4002   : throw new JwtException("Token 驗證期間其他錯誤!");
 			}
 		}
 		
