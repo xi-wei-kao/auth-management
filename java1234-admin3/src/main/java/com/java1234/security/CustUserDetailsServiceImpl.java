@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.java1234.dao.TestAuthorityStore;
 import com.java1234.dao.TestUserMtrDao;
 import com.java1234.dao.entity.TestUserMtrEnt;
 
@@ -41,11 +43,24 @@ public class CustUserDetailsServiceImpl implements UserDetailsService {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String pwd = passwordEncoder.encode(ent.getUserPassword());
 		
-		return new User(ent.getUserName(), pwd, getUserAuthority());
+		return new User(ent.getUserName(), pwd, getUserAuthority(entOpt.get().getUserId()));
 	}
 
-	public List<GrantedAuthority> getUserAuthority() {
-		return new ArrayList<>();
+	@Autowired
+	private TestAuthorityStore testAuthorityStore;
+	
+	/**
+	 * 取得使用者角色, 授權列表
+	 * @return
+	 */
+	public List<GrantedAuthority> getUserAuthority(Long userId) {
+		
+		String userAuthorityInfo = testAuthorityStore.getUserAuthorityInfo(userId);
+		
+		List<GrantedAuthority> commaSeparatedStringToAuthorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(userAuthorityInfo);
+		
+//		return new ArrayList<>();
+		return commaSeparatedStringToAuthorityList;
 	}
 
 }

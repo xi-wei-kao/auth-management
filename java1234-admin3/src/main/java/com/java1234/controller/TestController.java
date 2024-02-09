@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 public class TestController {
 
 	@GetMapping(path = "/getList")
+	@PreAuthorize("hasRole('ROLE_ADMIN2')")
+//	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//	@PreAuthorize("hasAuthority('system:role:userManagement')")
 	public Map<String, String> getList(
 			@Parameter(hidden = true) @AuthenticationPrincipal Jwt jwt,
 			@Parameter(hidden = true) @RequestHeader HttpHeaders httpHeaders) {
