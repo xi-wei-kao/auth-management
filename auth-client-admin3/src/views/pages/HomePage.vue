@@ -6,6 +6,8 @@
         <ElButton :type="'primary'" @click="handleQuery">測試查詢</ElButton>
         {{ resData }}
         {{   }}
+        <ElButton :type="'primary'" @click="handleGetOverview">測試Dashboard查詢</ElButton>
+        <ElButton :type="'primary'" @click="handleStore">測試store</ElButton>
         <ElButton :type="'danger'" @click="handleLogout">登出</ElButton>
     </div>
 </template>
@@ -18,12 +20,33 @@ import {
 import service from '@/service/index'
 import { ref } from 'vue';
 import { router } from '@/router';
+import { GetOverviewReq } from '@/service/request/requestType';
+
+import { myStore } from '../../store/index';
+const store = myStore();
 
 const resData = ref();
 const logoutData = ref();
 const handleQuery = async () => {
     const response = await service.queryAllAction();
     resData.value = response.data;
+}
+
+const handleGetOverview = async () => {
+    const reqBody: GetOverviewReq = {
+        "type": "day"
+    }
+    
+    const response = await service.getOverview(reqBody);
+    console.log("getOverview() response = ", response);
+    resData.value = response.data;
+
+    ElMessage({
+        'type': 'success',
+        'message': response.data.message
+    });
+
+
 }
 
 const handleLogout = async () => {
@@ -33,10 +56,20 @@ const handleLogout = async () => {
         'type': 'success',
         'message': response.data.message
     });
-    window.localStorage.removeItem("token");
+
+    store.$patch({
+        'accessToken': ""
+    });
+
     router.push({
         'name': 'login'
     });
+}
+
+const handleStore = () => {
+    store.$patch({
+        'test1': '123'
+    })
 }
 
 </script>

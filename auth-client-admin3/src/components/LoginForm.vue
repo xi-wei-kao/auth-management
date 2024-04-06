@@ -34,6 +34,9 @@ import {
     LoginActionReq
 } from '../service/request/requestType';
 import { router } from '../router/index';
+import { myStore } from '../store/index';
+const store = myStore();
+
 
 const loginModel = ref<LoginActionReq>({
     username: "",
@@ -50,7 +53,13 @@ const handleLogin = async () => {
                 'type': 'success',
                 'message': data.message
             });
-            window.localStorage.setItem("token", data.authorization)
+            // window.localStorage.setItem("token", data.authorization)
+
+            // 儲存至 Store
+            store.$patch({
+                'accessToken': data.authorization
+            });
+
             router.push({
                 'name': 'home'
             });
