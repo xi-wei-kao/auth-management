@@ -43,10 +43,10 @@ server.interceptors.response.use(function (response) {
     console.log("error.response.status = ", error.response.status);
     if (error.response.status === 401) {
         localStorage.removeItem("myStore");
+        router.push({
+            'name': 'login'
+        });
     }
-    router.push({
-        'name': 'login'
-    });
 
     return Promise.reject(error);
   });
